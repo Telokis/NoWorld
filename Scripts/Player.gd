@@ -61,10 +61,10 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
+	# If we're on the floor, we have perfect control, no sliding/inertia.
 	if is_on_floor():
 		if direction:
 			velocity.x = direction.x * SPEED
@@ -73,9 +73,12 @@ func _physics_process(delta):
 			velocity.x = 0
 			velocity.z = 0
 	elif !jumpHadInitialVelocity and velocity.x == 0 and velocity.z == 0:
+		# If jumping, we're allowed to adjust our velocity slightly
+		# if we didn't have any when we started the jump.
 		velocity.x = direction.x * SPEED * AIR_CONTROL_FACTOR
 		velocity.z = direction.z * SPEED * AIR_CONTROL_FACTOR
 
+	# Update physics
 	move_and_slide()
 
 func shoot():
@@ -92,4 +95,4 @@ func shoot():
 		var projectileInstance = BasicProjectile.instantiate()
 		get_tree().current_scene.add_child(projectileInstance)
 		projectileInstance.transform = muzzle.global_transform
-		projectileInstance.direction = (collision.position - projectileInstance.transform).normalized()
+		projectileInstance.direction = (collision.position - projectileInstance.position).normalized()
