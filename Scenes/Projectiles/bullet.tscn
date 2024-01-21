@@ -1,57 +1,26 @@
-[gd_scene load_steps=11 format=3 uid="uid://2rbmc4aw5v2j"]
+[gd_scene load_steps=6 format=3 uid="uid://2rbmc4aw5v2j"]
 
 [ext_resource type="Script" path="res://Scripts/Bullet.gd" id="1_5oajo"]
+[ext_resource type="Texture2D" uid="uid://g03i1ur6jhml" path="res://addons/kenney_particle_pack/magic_05.png" id="2_6akej"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d4bnn"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jw6k7"]
+transparency = 1
+albedo_texture = ExtResource("2_6akej")
+billboard_mode = 1
 
-[sub_resource type="SphereMesh" id="SphereMesh_tkmkj"]
-material = SubResource("StandardMaterial3D_d4bnn")
-radius = 0.1
-height = 0.2
+[sub_resource type="QuadMesh" id="QuadMesh_onftk"]
+material = SubResource("StandardMaterial3D_jw6k7")
+size = Vector2(0.2, 0.2)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_b10af"]
-
-[sub_resource type="Gradient" id="Gradient_nyeq3"]
-colors = PackedColorArray(0, 0.698039, 1, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_roms7"]
-gradient = SubResource("Gradient_nyeq3")
-
-[sub_resource type="Curve" id="Curve_x0ht5"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_pgsiw"]
-curve = SubResource("Curve_x0ht5")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fgthk"]
-emission_shape = 2
-emission_sphere_radius = 0.1
-angle_min = -180.0
-angle_max = 180.0
-direction = Vector3(0, 0, -1)
-spread = 5.0
-initial_velocity_min = 0.35
-initial_velocity_max = 1.7
-radial_velocity_min = 0.2
-radial_velocity_max = 0.7
-gravity = Vector3(0, 0, 20)
-damping_max = 5.0
-scale_min = 0.05
-scale_max = 0.1
-scale_curve = SubResource("CurveTexture_pgsiw")
-color_ramp = SubResource("GradientTexture1D_roms7")
-turbulence_enabled = true
-turbulence_noise_strength = 0.2
-turbulence_noise_scale = 0.2
-
-[sub_resource type="SphereMesh" id="SphereMesh_3gh2q"]
+radius = 0.2
 
 [node name="Bullet" type="Area3D"]
 script = ExtResource("1_5oajo")
+maxTravelDistance = 30
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_tkmkj")
+mesh = SubResource("QuadMesh_onftk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_b10af")
@@ -59,13 +28,3 @@ shape = SubResource("SphereShape3D_b10af")
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 autostart = true
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-amount = 50
-lifetime = 0.7
-explosiveness = 0.1
-randomness = 0.2
-trail_enabled = true
-trail_lifetime = 0.6
-process_material = SubResource("ParticleProcessMaterial_fgthk")
-draw_pass_1 = SubResource("SphereMesh_3gh2q")

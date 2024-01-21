@@ -11,16 +11,20 @@ extends CharacterBody3D
 @export var MOUSE_HORIZONTAL_SENSITIVITY = 0.1
 @export var MOUSE_VERTICAL_SENSITIVITY = 0.1
 
-@export_category("Camera clamping")
+@export_category("Camera zoom")
 @export var MIN_CAMERA_ARM_DISTANCE = 0
 @export var MAX_CAMERA_ARM_DISTANCE = 10
+@export var CAMERA_ZOOM_INCREMENT = 1
 
 @export_category("Projectiles")
 @export var BasicProjectile: PackedScene = preload("res://Scenes/Projectiles/bullet.tscn")
 
-@onready var camera = $cameraArm/cameraOffset/Camera3D
+@onready var camera = $cameraArm/Camera3D
 @onready var camera_arm = $cameraArm
 @onready var muzzle = $muzzle
+
+@onready var topCameraArmPosMarker = $topCameraArmPos
+@onready var bottomCameraArmPosMarker = $bottomCameraArmPos
 
 var BoxScene = preload("res://Scenes/box.tscn")
 
@@ -41,14 +45,21 @@ func _input(event):
 
 func _process(_delta):
 	if Input.is_action_just_pressed("zoom_in"):
-		camera_arm.spring_length -= 0.5
-		camera_arm.spring_length = clamp(camera_arm.spring_length, MIN_CAMERA_ARM_DISTANCE, MAX_CAMERA_ARM_DISTANCE)
+		camera_arm.spring_length -= CAMERA_ZOOM_INCREMENT
+		afterZoom()
 	elif Input.is_action_just_pressed("zoom_out"):
-		camera_arm.spring_length += 0.5
-		camera_arm.spring_length = clamp(camera_arm.spring_length, MIN_CAMERA_ARM_DISTANCE, MAX_CAMERA_ARM_DISTANCE)
+		camera_arm.spring_length += CAMERA_ZOOM_INCREMENT
+		afterZoom()
 	
 	if Input.is_action_just_pressed("shoot"):
 		shoot()
+
+## Called after the zoom has been updated
+func afterZoom():
+	var newSpringLength = clamp(camera_arm.spring_length, MIN_CAMERA_ARM_DISTANCE, MAX_CAMERA_ARM_DISTANCE)
+	var weight = (newSpringLength - MIN_CAMERA_ARM_DISTANCE) / (MAX_CAMERA_ARM_DISTANCE - MIN_CAMERA_ARM_DISTANCE)
+	camera_arm.position = lerp(bottomCameraArmPosMarker.position, topCameraArmPosMarker.position, weight)
+	camera_arm.spring_length = newSpringLength
 
 func _physics_process(delta):
 	# Add the gravity.
