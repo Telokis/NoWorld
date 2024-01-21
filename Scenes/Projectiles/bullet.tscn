@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://2rbmc4aw5v2j"]
+
+[ext_resource type="Script" path="res://Scripts/Bullet.gd" id="1_5oajo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d4bnn"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_tkmkj"]
+material = SubResource("StandardMaterial3D_d4bnn")
+radius = 0.1
+height = 0.2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_b10af"]
+
+[node name="Bullet" type="Area3D"]
+script = ExtResource("1_5oajo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_tkmkj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_b10af")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true

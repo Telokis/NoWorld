@@ -1,0 +1,67 @@
+[gd_scene load_steps=12 format=3 uid="uid://btocjv6bid42u"]
+
+[ext_resource type="Texture2D" uid="uid://bo3jfafdthg0i" path="res://addons/kenney_prototype_textures/dark/texture_09.png" id="1_cbsa7"]
+[ext_resource type="Script" path="res://Scripts/World.gd" id="1_csd6x"]
+[ext_resource type="PackedScene" uid="uid://bexgy8ql8ny6u" path="res://Scenes/player.tscn" id="1_dyrns"]
+[ext_resource type="PackedScene" uid="uid://dicihevrtoeoy" path="res://Scenes/box.tscn" id="4_ho276"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_w40ay"]
+sky_top_color = Color(0.270588, 0.47451, 0.607843, 1)
+sky_curve = 0.0388226
+
+[sub_resource type="Sky" id="Sky_wu8mh"]
+sky_material = SubResource("ProceduralSkyMaterial_w40ay")
+
+[sub_resource type="Environment" id="Environment_e4gvt"]
+background_mode = 2
+sky = SubResource("Sky_wu8mh")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+reflected_light_source = 2
+ssao_enabled = true
+ssil_enabled = true
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_iqvpu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xc5at"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5bdeq"]
+albedo_texture = ExtResource("1_cbsa7")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_8l6bd"]
+material = SubResource("StandardMaterial3D_5bdeq")
+size = Vector3(100, 1, 100)
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_csd6x")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_e4gvt")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_iqvpu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_xc5at")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_8l6bd")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.954682, -0.256306, 0.151295, 0.289145, -0.678193, 0.67561, -0.0705555, 0.688739, 0.721568, 0, 36.2164, 38.013)
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("1_dyrns")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.50264, 0.9, -0.450326)
+SPEED = 15.0
+GRAVITY_FACTOR = 3.0
+
+[node name="Box" parent="." instance=ExtResource("4_ho276")]
+transform = Transform3D(0.920095, 0, 0.391695, 0, 1, 0, -0.391695, 0, 0.920095, 2.67286, 0.5, 4.96766)
+
+[node name="Box2" parent="." instance=ExtResource("4_ho276")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -7.531, 1.5, -2.279)
