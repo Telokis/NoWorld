@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://btocjv6bid42u"]
+[gd_scene load_steps=25 format=3 uid="uid://btocjv6bid42u"]
 
 [ext_resource type="Script" path="res://World/World.gd" id="1_csd6x"]
 [ext_resource type="PackedScene" uid="uid://bexgy8ql8ny6u" path="res://World/player.tscn" id="1_dyrns"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://addons/cyclops_level_builder/resources/convex_block_data.gd" id="4_443ah"]
 [ext_resource type="Material" uid="uid://tihs7bioe2u1" path="res://Materials/prototype_orange.tres" id="6_dw8wn"]
 [ext_resource type="Script" path="res://addons/cyclops_level_builder/nodes/cyclops_block.gd" id="6_e3y0v"]
+[ext_resource type="PackedScene" uid="uid://d1db7ssr5u2ih" path="res://UI/ui.tscn" id="7_e70ay"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_w40ay"]
 sky_top_color = Color(0.270588, 0.47451, 0.607843, 1)
@@ -461,3 +462,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 5, 11)
 script = ExtResource("6_e3y0v")
 block_data = SubResource("Resource_xt5ca")
 materials = Array[Material]([ExtResource("6_dw8wn")])
+
+[node name="UI" parent="." instance=ExtResource("7_e70ay")]

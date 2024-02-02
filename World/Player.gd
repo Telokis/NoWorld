@@ -17,7 +17,7 @@ extends CharacterBody3D
 @export var CAMERA_ZOOM_INCREMENT: float = 1
 
 @export_category("Projectiles")
-@export var BasicProjectile: PackedScene = preload("res://Scenes/Projectiles/bullet.tscn")
+@export var BasicProjectile: PackedScene = preload("res://World/Projectiles/bullet.tscn")
 
 @onready var camera = $cameraArm/Camera3D
 @onready var camera_arm = $cameraArm
@@ -29,7 +29,7 @@ extends CharacterBody3D
 @onready var zoomLevel: float = camera_arm.spring_length
 var zoomTween : Tween
 
-var BoxScene = preload("res://Scenes/box.tscn")
+var BoxScene = preload("res://World/box.tscn")
 
 ## If set to true and airborne, we can decide a direction.
 var jumpHadInitialVelocity = false;
