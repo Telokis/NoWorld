@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SpellData" load_steps=3 format=3 uid="uid://t1vj4vffdtxd"]
+
+[ext_resource type="Texture2D" uid="uid://d2upu3tbpgu50" path="res://Assets/Images/Skills/blue (22).PNG" id="1_3gtm1"]
+[ext_resource type="Script" path="res://Resources/SpellData.gd" id="1_e6nsm"]
+
+[resource]
+script = ExtResource("1_e6nsm")
+name = "Mana Sphere"
+icon = ExtResource("1_3gtm1")

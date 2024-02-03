@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SpellData" load_steps=3 format=3 uid="uid://c622p0n85kp8x"]
+
+[ext_resource type="Texture2D" uid="uid://biqmfi43l72s6" path="res://Assets/Images/Skills/blue (29).PNG" id="1_5yluv"]
+[ext_resource type="Script" path="res://Resources/SpellData.gd" id="2_awfhe"]
+
+[resource]
+script = ExtResource("2_awfhe")
+name = "Mana Howl"
+icon = ExtResource("1_5yluv")
