@@ -7,3 +7,5 @@
 script = ExtResource("2_awfhe")
 name = "Mana Howl"
 icon = ExtResource("1_5yluv")
+on_gcd = true
+cooldown_duration = 10
