@@ -3,20 +3,8 @@
 [ext_resource type="Script" path="res://UI/spell_icon.gd" id="1_whr0t"]
 [ext_resource type="Texture2D" uid="uid://cfrvoir4jh728" path="res://Assets/Images/what.jpg" id="2_7gg60"]
 
-[node name="SpellIcon" type="Control"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_whr0t")
-
-[node name="ProgressTexture" type="TextureProgressBar" parent="."]
-layout_mode = 1
+[node name="SpellIcon" type="TextureProgressBar"]
+unique_name_in_owner = true
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -28,7 +16,9 @@ offset_right = 32.0
 offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
-value = 20.0
+max_value = 1.0
+step = 0.05
+value = 1.0
 fill_mode = 4
 nine_patch_stretch = true
 stretch_margin_left = 32
@@ -38,3 +28,18 @@ stretch_margin_bottom = 32
 texture_under = ExtResource("2_7gg60")
 texture_progress = ExtResource("2_7gg60")
 tint_under = Color(0.25098, 0.25098, 0.25098, 1)
+script = ExtResource("1_whr0t")
+
+[node name="CooldownText" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CooldownText"
+text = "1.2"
+horizontal_alignment = 1
+vertical_alignment = 1

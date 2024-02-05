@@ -7,3 +7,5 @@
 script = ExtResource("1_e6nsm")
 name = "Mana Sphere"
 icon = ExtResource("1_3gtm1")
+on_gcd = true
+cooldown_duration = 1

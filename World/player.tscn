@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bexgy8ql8ny6u"]
+[gd_scene load_steps=9 format=3 uid="uid://bexgy8ql8ny6u"]
 
 [ext_resource type="Script" path="res://World/Player.gd" id="1_ulik2"]
 [ext_resource type="Texture2D" uid="uid://mlh063xenr1l" path="res://Assets/Images/Crosshair.png" id="2_7e61h"]
 [ext_resource type="Texture2D" uid="uid://fskl5pwa6eqy" path="res://addons/kenney_prototype_textures/dark/texture_07.png" id="3_j0tue"]
+[ext_resource type="PackedScene" uid="uid://c6bqxjtp1smdr" path="res://Tools/timer_plus.tscn" id="4_np6yn"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sckis"]
 height = 1.8
@@ -29,11 +30,13 @@ shape = SubResource("CapsuleShape3D_sckis")
 mesh = SubResource("CapsuleMesh_nur0o")
 
 [node name="cameraArm" type="SpringArm3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.983766, 0.179455, 0, -0.179455, 0.983766, 0, 3.18785, 0)
 spring_length = 10.0
 margin = 0.025
 
 [node name="Camera3D" type="Camera3D" parent="cameraArm"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.99531, -0.0967314, 0, 0.0967314, 0.99531, 0, 0.000153542, 9.99985)
 
 [node name="Sprite2D" type="TextureRect" parent="cameraArm/Camera3D"]
@@ -51,6 +54,7 @@ grow_vertical = 2
 texture = ExtResource("2_7e61h")
 
 [node name="muzzle" type="Marker3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.233742, -0.491809)
 
 [node name="topCameraArmPos" type="Marker3D" parent="."]
@@ -64,3 +68,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9, 0)
 visible = false
 material_override = SubResource("StandardMaterial3D_yem1q")
 mesh = SubResource("PlaneMesh_0owah")
+
+[node name="CooldownTimer" parent="." instance=ExtResource("4_np6yn")]
+unique_name_in_owner = true

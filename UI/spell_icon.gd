@@ -1,15 +1,19 @@
-extends Control
+class_name SpellIcon
+extends TextureProgressBar
 
-@onready var progress_texture = $ProgressTexture
-
-@export var textureImage: Texture2D
+@export var spell: SpellData
+@onready var cooldown_text = %CooldownText
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	progress_texture.texture_under = textureImage
-	progress_texture.texture_progress = textureImage
+	texture_under = spell.icon
+	texture_progress = spell.icon
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func _on_cooldown_tick(timer: TimerPlus):
+	value = 1 - (timer.time_left / timer.time_total)
+	
+	if (timer.time_left >= 3.0 or timer.time_left < 0.05):
+		cooldown_text.hide()
+	else:
+		cooldown_text.show()
+		cooldown_text.text = "%.01f" % timer.time_left

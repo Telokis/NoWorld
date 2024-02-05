@@ -1,7 +1,8 @@
-[gd_scene load_steps=25 format=3 uid="uid://btocjv6bid42u"]
+[gd_scene load_steps=26 format=3 uid="uid://btocjv6bid42u"]
 
-[ext_resource type="Script" path="res://World/World.gd" id="1_csd6x"]
 [ext_resource type="PackedScene" uid="uid://bexgy8ql8ny6u" path="res://World/player.tscn" id="1_dyrns"]
+[ext_resource type="Script" path="res://World/world.gd" id="1_vx7sj"]
+[ext_resource type="Resource" uid="uid://t1vj4vffdtxd" path="res://Data/Spells/ManaSphere.tres" id="3_ak142"]
 [ext_resource type="Script" path="res://addons/cyclops_level_builder/nodes/cyclops_blocks.gd" id="3_drsix"]
 [ext_resource type="Script" path="res://addons/cyclops_level_builder/resources/convex_block_data.gd" id="4_443ah"]
 [ext_resource type="Material" uid="uid://tihs7bioe2u1" path="res://Materials/prototype_orange.tres" id="6_dw8wn"]
@@ -360,8 +361,10 @@ face_selected = PackedByteArray(0, 0, 0, 0, 0, 0)
 active_face = -1
 face_ids = PackedInt32Array(0, 1, 2, 3, 4, 5)
 
-[node name="World" type="Node3D"]
-script = ExtResource("1_csd6x")
+[node name="World" type="Node3D" node_paths=PackedStringArray("player", "ui")]
+script = ExtResource("1_vx7sj")
+player = NodePath("Player")
+ui = NodePath("UI")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_e4gvt")
@@ -375,6 +378,7 @@ SPEED = 10.0
 JUMP_VELOCITY = 10
 GRAVITY_FACTOR = 3.0
 AIR_CONTROL_FACTOR = 0.7
+mainSpellData = ExtResource("3_ak142")
 
 [node name="CyclopsBlocks" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, -8)

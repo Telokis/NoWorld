@@ -1,4 +1,9 @@
+class_name Player
 extends CharacterBody3D
+
+signal spell_used(SpellData)
+signal cooldownTimerFinished
+signal cooldownTimerTicked(timer: TimerPlus)
 
 @export_category("Physics")
 @export var SPEED = 5.0
@@ -18,13 +23,16 @@ extends CharacterBody3D
 
 @export_category("Projectiles")
 @export var BasicProjectile: PackedScene = preload("res://World/Projectiles/bullet.tscn")
+@export var mainSpellData: SpellData
 
-@onready var camera = $cameraArm/Camera3D
-@onready var camera_arm = $cameraArm
-@onready var muzzle = $muzzle
+@onready var camera = %Camera3D
+@onready var camera_arm = %cameraArm
+@onready var muzzle = %muzzle
 
 @onready var topCameraArmPosMarker = $topCameraArmPos
 @onready var bottomCameraArmPosMarker = $bottomCameraArmPos
+
+@onready var cooldownTimer = %CooldownTimer
 
 @onready var zoomLevel: float = camera_arm.spring_length
 var zoomTween : Tween
@@ -39,6 +47,10 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
+	spell_used.connect(_on_spell_used)
+	cooldownTimer.finished.connect(func(): cooldownTimerFinished.emit())
+	cooldownTimer.ticked.connect(func(timer: TimerPlus): cooldownTimerTicked.emit(timer))
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -53,7 +65,7 @@ func _process(_delta):
 		handleZoom(+CAMERA_ZOOM_INCREMENT)
 	
 	if Input.is_action_just_pressed("shoot"):
-		shoot()
+		shoot(mainSpellData)
 
 ## Perform zoom by configuring the springArm3D
 func handleZoom(zoomChange):
@@ -99,7 +111,15 @@ func _physics_process(delta):
 	# Update physics
 	move_and_slide()
 
-func shoot():
+func _on_spell_used(spell: SpellData):
+	cooldownTimer.start(spell.cooldown_duration)
+
+func shoot(spell: SpellData):
+	if (!cooldownTimer.isStopped()):
+		print("Spell %s on cooldown" % spell.name)
+		return
+	
+	spell_used.emit(spell)
 	# To shoot, we first need to raycast from the camera to see what it is aiming at.
 	# Once we have the collision point, we can then shoot to it from the player's muzzle.
 	var screenCenter = get_viewport().size / 2.0
